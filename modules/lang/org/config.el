@@ -728,6 +728,9 @@ between the two."
         (:when (featurep! :completion helm)
          "." #'helm-org-in-buffer-headings
          "/" #'helm-org-agenda-files-headings)
+        (:when (featurep! :completion selectrum)
+         "." #'consult-org-heading
+         "/" #'consult-org-agenda)
         "A" #'org-archive-subtree
         "e" #'org-export-dispatch
         "f" #'org-footnote-new
@@ -811,6 +814,9 @@ between the two."
          (:when (featurep! :completion helm)
           "g" #'helm-org-in-buffer-headings
           "G" #'helm-org-agenda-files-headings)
+        (:when (featurep! :completion selectrum)
+         "g" #'consult-org-heading
+         "G" #'consult-org-agenda)
          "c" #'org-clock-goto
          "C" (cmd! (org-clock-goto 'select))
          "i" #'org-id-goto
