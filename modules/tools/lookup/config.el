@@ -183,7 +183,12 @@ Dictionary.app behind the scenes to get definitions.")
       (funcall orig-fn fetcher alist)))
 
   (use-package! helm-xref
-    :when (featurep! :completion helm)))
+    :when (featurep! :completion helm))
+
+  (use-package! consult-xref
+    :when (featurep! :completion selectrum)
+    :commands (consult-xref)
+    :init (setq xref-show-xrefs-function #'consult-xref)))
 
 
 ;;
