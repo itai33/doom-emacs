@@ -8,9 +8,6 @@
         selectrum-extend-current-candidate-highlight t)
   (when (featurep! +prescient)
     (setq completion-styles '(substring partial-completion)))
-  (map! "C-;"               #'embark-act  ; to be moved to :config default if accepted
-        :leader
-        :desc "Actions" "a" #'embark-act) ; to be moved to :config default if accepted
   :config
   (setq selectrum-fix-vertical-window-height 17
         selectrum-max-window-height 17
@@ -33,13 +30,7 @@
       (call-interactively 'backward-delete-char)))
 
   (map! :map selectrum-minibuffer-map
-        "C-;"               #'embark-act
-        "C-c C-;"           #'embark-export
-        :desc "Export to writable buffer"
-        "C-c C-e"           #'+selectrum/embark-export-write
-        [backspace]         #'+selectrum/backward-updir
-        :desc "Cycle marginalia views"
-        "M-A"               #'marginalia-cycle))
+        [backspace]         #'+selectrum/backward-updir))
 
 (use-package! selectrum-prescient
   :when (featurep! +prescient)
@@ -98,7 +89,6 @@
     [remap switch-to-buffer-other-window] #'consult-buffer-other-window
     [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
     [remap yank-pop]                      #'consult-yank-pop
-    [remap describe-bindings]             #'embark-bindings
     [remap persp-switch-to-buffer]        #'+selectrum/switch-workspace-buffer)
   (setq completion-in-region-function #'consult-completion-in-region)
   :config
@@ -130,6 +120,16 @@
           (which-key--show-keymap "Embark" map nil nil 'no-paging)
           #'which-key--hide-popup-ignore-command)
         embark-become-indicator embark-action-indicator)
+  (map! "C-;"               #'embark-act  ; to be moved to :config default if accepted
+        :leader
+        :desc "Actions" "a" #'embark-act) ; to be moved to :config default if accepted
+  (map! :map minibuffer-local-map
+        "C-;"               #'embark-act
+        "C-c C-;"           #'embark-export
+        :desc "Export to writable buffer"
+        "C-c C-e"           #'+selectrum/embark-export-write)
+  (define-key!
+    [remap describe-bindings]             #'embark-bindings)
   :config
   (map!
    :map embark-file-map
@@ -141,6 +141,10 @@
 
 (use-package! marginalia
   :hook (doom-first-input . marginalia-mode)
+  :init
+  (map! :map minibuffer-local-map
+        :desc "Cycle marginalia views"
+        "M-A"               #'marginalia-cycle)
   :config
   (add-to-list 'marginalia-command-categories '(persp-switch-to-buffer . buffer)))
 
