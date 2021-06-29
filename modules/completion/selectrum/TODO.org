@@ -59,6 +59,11 @@ Do we want to have the annotations be more like ivy? e.g.
 - have a project column in the buffer annotations and a relative path? This has some overlap with project narrowing =SPC b B p SPC.
 - Mark the modified/remote status of the buffer with color, on top of the modification column?
 - Change colors in general?
+** TODO Consider renaming the module
+=:completion selectrum= is a bit of a misnomer. Selectrum is probably the
+most easily replaceable part of the module as it can replaced with Vertico
+fairly easily, other than losing the ~selectrum-repeat~ command. However,
+naming is hard™. Best alternative I can think of is =:completion modular=.
 
 * PROJ HACKs to be addressed
 ** TODO ~fboundp~ issues
@@ -79,9 +84,16 @@ though at least the bookmark function ostensibly uses
 grep case due to a custom ivy occur window switching function.
 ** TODO Icons
 Partially solved, seems to have interaction with selectrum height issue, so not yet implemented.
+** TODO ~company~ completions get ordered really weirdly
+This is due to orderless adding a bunch of other matches.
+
+* PROJ Review non-blocking Issues
 ** TODO Profile selectrum =SPC /= vs ivy =SPC /=
+Check if there are other places where optimisations can be made. Perhaps the
+~command-input-async~ variables can tolorate lower values.
 ** TODO ~(defadvice! +orderless-match-with-one-face..~ causes lexical error
-probably caused by some doomism
+Probably caused by some doomism
+
 https://github.com/oantolin/orderless/issues/41
 
 * PROJ Upstream Issues
@@ -91,6 +103,8 @@ https://github.com/raxod502/selectrum/issues/491
 Unlike Ivy, ~selectrum-repeat~ doesn't restore the position of the selection in
 the completion buffer. Seems to be reproduced in ~emacs -Q~. If so, create
 upstream selectrum issue.
+** TODO Marginalia annotations sometimes disappear on ~find-file~
+https://github.com/raxod502/selectrum/issues/561
 
 * PROJ Extra credit
 ** TODO bibtex-actions improvements?
