@@ -10,6 +10,11 @@
         projectile-completion-system 'default)
   (when (featurep! +prescient)
     (setq completion-styles '(substring partial-completion)))
+  (add-hook 'selectrum-mode-hook (lambda ()
+                                   (setq completion-in-region-function
+                                         (if vertico-mode
+                                             #'consult-completion-in-region
+                                           #'completion--in-region))))
   :config
   (map! :map selectrum-minibuffer-map
         [backspace] #'+selectrum/backward-updir))
@@ -22,6 +27,11 @@
         vertico-count 17
         vertico-cycle t
         projectile-completion-system 'default)
+  (add-hook 'vertico-mode-hook (lambda ()
+                                 (setq completion-in-region-function
+                                       (if vertico-mode
+                                           #'consult-completion-in-region
+                                         #'completion--in-region))))
   :config
   (map! :map vertico-map
       [backspace] #'+selectrum/backward-updir))
